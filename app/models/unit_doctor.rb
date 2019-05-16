@@ -1,0 +1,2 @@
+class UnitDoctor < ApplicationRecord
+end
