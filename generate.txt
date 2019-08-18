@@ -1,0 +1,14 @@
+rails generate scaffold Comment doctor:references content:string rating:integer user:references --no-migration
+rails generate scaffold Doctor name:string year:integer speciality:string image:string rating:float nr_comms:integer --no-migration
+rails generate scaffold MedicalUnit name:string location:string speciality:string image:string --no-migration
+rails generate scaffold UnitDoctor id_unit:integer id_doctor:integer --no-migration
+rails generate scaffold UserDetail id_user:integer name:string problem:string image:string --no-migration
+rails generate scaffold User email:string password:string admin:string --no-migration
+
+
+select mu.name,
+	(SELECT COUNT(*) from unit_doctors WHERE unit_doctors.id_doctor = d.id) as nr_doc, 
+    (SELECT rating/nr_comms FROM doctors where doctors.id = d.id) as rating
+FROM medical_units mu
+INNER JOIN unit_doctors ud on ud.id_unit = mu.id
+INNER JOIN doctors d ON d.id = ud.id_doctor;
